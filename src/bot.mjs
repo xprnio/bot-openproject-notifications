@@ -186,6 +186,8 @@ export class Bot {
       throw new Error(`Invalid message: ${content}`);
     }
 
+    console.log('Sending message to', room);
+    console.log('>', content);
     await driver.sendToRoom(content, room);
   }
 }
