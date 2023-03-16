@@ -4,6 +4,7 @@ config();
 const {
   ROCKET_CHAT_HOST,
   OPEN_PROJECT_URL,
+  OPEN_PROJECT_API_KEY,
   BOT_USERNAME,
   BOT_PASSWORD,
   BOT_ROOMS,
@@ -18,4 +19,5 @@ export default {
   port: PORT,
 
   openProjectURL: OPEN_PROJECT_URL,
+  openProjectApiKey: OPEN_PROJECT_API_KEY,
 };
