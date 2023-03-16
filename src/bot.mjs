@@ -14,7 +14,7 @@ export class Bot {
   async sendMessage(room, content) {
     if (Array.isArray(content)) {
       for( const messageItem of content ) {
-        await sendMessage(room, messageItem);
+        await this.sendMessage(room, messageItem);
       }
       return;
     }
