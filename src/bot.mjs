@@ -140,8 +140,8 @@ export class Bot {
         f.action = '${action}'
     `);
 
-    for (const room of rooms) {
-      await this.sendMessage(room, message);
+    for (const { room_name } of rooms) {
+      await this.sendMessage(room_name, message);
     }
   }
 
