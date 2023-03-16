@@ -12,8 +12,8 @@ export class Bot {
   }
 
   async sendMessage(room, message) {
-    const message = await driver.sendToRoom(message, room);
-    console.log(message);
+    const result = await driver.sendToRoom(message, room);
+    console.log(result);
   }
 }
 
