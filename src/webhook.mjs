@@ -36,11 +36,12 @@ async function formatMessage(payload) {
 
 			return [
 				`[#${id} - ${subject}](${url})`,
-				'```',
+				'```text',
 				...lastActivity.details
 					.map(details => details['raw'])
 					.map(row => `- ${row}`),
 				'```',
+				'---',
 			];
 		}
 		default:
