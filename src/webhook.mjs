@@ -35,10 +35,12 @@ async function formatMessage(payload) {
 			const lastActivity = activities[activities.length - 1];
 
 			return [
-				`Changes were made to work package [#${id} - ${subject}](${url})`,
+				`[#${id} - ${subject}](${url})`,
+				'```',
 				...lastActivity.details
 					.map(details => details['raw'])
-					.map(row => `* ${row}`),
+					.map(row => `- ${row}`),
+				'```',
 			];
 		}
 		default:
