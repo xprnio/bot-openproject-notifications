@@ -9,7 +9,8 @@ const [room] = rooms;
 
 function createAuthorization() {
 	const { openProjectApiKey } = constants;
-	return `Basic apikey:${openProjectApiKey}`;
+	const auth = Buffer.from(`apikey:${openProjectApiKey}`).toString('base64');
+	return `Basic ${auth}`;
 }
 
 async function getWorkPackageActivities(id) {
