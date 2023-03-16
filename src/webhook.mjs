@@ -14,7 +14,7 @@ function createAuthorization() {
 }
 
 async function fetchApiLink(link) {
-	const url = `${openProjectApiUrl}${link}`;
+	const url = `${openProjectURL}${link}`;
 	return fetch(url, {
 		headers: {
 			'Authorization': createAuthorization(),
