@@ -136,8 +136,8 @@ export class Bot {
         bot_filters AS f LEFT JOIN
         bot_configs AS c ON f.config_id = c.id
       WHERE
-        c.project_id = ${ project_id } AND
-        f.action = ${ action }
+        c.project_id = ${project_id} AND
+        f.action = '${action}'
     `);
     console.log('notifying', rooms);
   }
