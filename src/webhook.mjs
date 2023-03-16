@@ -57,7 +57,7 @@ export function createWebhookHandler(bot) {
 		@param { express.Response } res
 		*/
 	return async function(req, res) {
-		const message = formatMessage(req.body);
+		const message = await formatMessage(req.body);
 		await bot.sendMessage(room, message);
 
 		res.status(200).json({ success: true });
