@@ -45,7 +45,11 @@ async function formatMessage(payload) {
 
 			return [
 				`Changes were made to work package #${id}: ${url}`,
-				...lastActivity.details.map(details => details['raw']),
+				'<ul>',
+				...lastActivity.details
+					.map(details => details['html'])
+					.map(row => `<li>${ row }</li>`),
+				'</ul>'
 			];
 		}
 		default:
