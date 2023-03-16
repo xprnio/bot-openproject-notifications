@@ -139,7 +139,10 @@ export class Bot {
         c.project_id = ${project_id} AND
         f.action = '${action}'
     `);
-    console.log('notifying', rooms);
+
+    for (const room of rooms) {
+      await this.sendMessage(room, message);
+    }
   }
 
   async handleMessage(err, payload, options) {
