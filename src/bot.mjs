@@ -23,7 +23,7 @@ export class Bot {
       throw new Error(`Invalid message: ${content}`);
     }
 
-    await driver.sendToRoom(message, room);
+    await driver.sendToRoom(content, room);
   }
 }
 
