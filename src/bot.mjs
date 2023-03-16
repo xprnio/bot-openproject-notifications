@@ -44,8 +44,8 @@ const createCommander = (bot, room) => {
 
   config.command('create')
     .argument('<project>', 'The project to assign to the channel')
-    .argument('[channel]', 'Channel to create a configuration for', room)
-    .action(async (project, channel, room) => {
+    .argument('[channel]', 'Channel to create a configuration for')
+    .action(async (project, channel = room) => {
       try {
         const config = await createConfig(bot.database, project, channel);
         await bot.sendMessage(room, [
@@ -60,14 +60,31 @@ const createCommander = (bot, room) => {
   const filters = command('filters');
 
   filters.command('list')
-    .argument('[channel]', 'List notification filters for this channel', room)
-    .argument('[project]', 'List notification filters for this project')
-    .action(async (channel, project) => {
+    .option('-p, --project <project>', 'List notification filters for this project')
+    .option('-c, --channel <project>', 'List notification filters for this channel')
+    .action(async ({ channel, project }) => {
       const where = [];
-      if (channel) where.push(`c.room_name = '${channel}'`);
-      if (project) where.push(`c.project_id = ${project}`);
-      const query =
-        `
+      if (channel) {
+        if (Array.isArray(channel)) {
+          const or = channel
+            .map(channel => `c.room_name = '${channel}'`)
+            .join(' OR ');
+          where.push(`(${or})`);
+        } else {
+          where.push(`c.room_name = '${channel}'`);
+        }
+      }
+      if (project) {
+        if (Array.isArray(project)) {
+          const or = project
+            .map(project => `c.project_id = ${project}`)
+            .join(' OR ');
+          where.push(`(${or})`);
+        } else {
+          where.push(`c.project_id = ${project}`);
+        }
+      }
+      const query = `
         SELECT
           f.config_id,
           c.project_id,
