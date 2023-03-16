@@ -95,6 +95,7 @@ const createCommander = (bot, room) => {
         WHERE
           ${where.join(' AND ')}
       `;
+      console.log(query);
       const result = await bot.database.all(query);
       await bot.sendMessage(room, [
         format.code(JSON.stringify(result, null, 2).split('\n'), 'json'),
