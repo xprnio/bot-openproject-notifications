@@ -1,0 +1,23 @@
+{
+  "name": "bot-openproject-notifications",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "nodemon index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@rocket.chat/sdk": "^0.2.9-2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
