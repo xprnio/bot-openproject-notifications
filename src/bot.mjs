@@ -12,7 +12,7 @@ export class Bot {
   }
 
   async sendMessage(room, message) {
-    await driver.sendToRoom('Webhook hit', room);
+    await driver.sendToRoom(message, room);
   }
 }
 
