@@ -2,11 +2,11 @@
   "name": "bot-openproject-notifications",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
+  "main": "src/index.mjs",
   "type": "module",
   "scripts": {
-    "start": "node index.mjs",
-    "dev": "nodemon index.mjs",
+    "start": "node src/index.mjs",
+    "dev": "nodemon src/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
