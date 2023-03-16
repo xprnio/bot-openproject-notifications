@@ -23,6 +23,8 @@ export function createWebhookHandler(bot) {
 		const message = formatJSON(req.body);
 		const [room] = constants.rooms;
 
+		console.log(JSON.stringify(req.body, null, 2));
+
 		await bot.sendMessage(room, message);
 
 		res.status(200).json({ success: true });

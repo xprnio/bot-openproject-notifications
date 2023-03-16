@@ -12,8 +12,7 @@ export class Bot {
   }
 
   async sendMessage(room, message) {
-    const result = await driver.sendToRoom(message, room);
-    console.log(result);
+    await driver.sendToRoom('Webhook hit', room);
   }
 }
 
