@@ -21,10 +21,6 @@ async function getWorkPackageActivities(id) {
 		},
 	});
 	return await res.json()
-		.then(json => {
-			console.log(JSON.stringify(json, null, 2));
-			return json;
-		})
 		.then(json => json['_embedded'])
 		.then(json => json['elements']);
 }
@@ -33,21 +29,17 @@ async function formatMessage(payload) {
 	const { action } = payload;
 	switch (action) {
 		case 'work_package:updated': {
+			console.log(payload.work_package);
 			const { id } = payload.work_package;
 			const url = `${openProjectURL}/work_packages/${id}`;
 			const activities = await getWorkPackageActivities(id);
 			const lastActivity = activities[activities.length - 1];
 
-			console.log(
-				'work_package:updated',
-				JSON.stringify(lastActivity, null, 2),
-			);
-
 			return [
 				`Changes were made to work package #${id}: ${url}`,
 				...lastActivity.details
 					.map(details => details['raw'])
-					.map(row => `* ${ row }`),
+					.map(row => `* ${row}`),
 			];
 		}
 		default:
