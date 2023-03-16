@@ -12,6 +12,8 @@ function formatMessage(payload) {
 			const { id } = payload.work_package;
 			const url = `${openProjectURL}/work_packages/${ id }`;
 
+			console.log('work_package:updated', payload.work_package);
+
 			return `Work package updated:\n${ url }`;
 		}
 		default: 
