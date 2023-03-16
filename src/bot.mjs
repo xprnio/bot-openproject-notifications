@@ -15,7 +15,7 @@ export class Bot {
     if (Array.isArray(content)) {
       return this.sendMessage(
         room,
-        content.join(','),
+        content.join('\n'),
       );
     }
 
