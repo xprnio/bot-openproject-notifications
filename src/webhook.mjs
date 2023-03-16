@@ -1,79 +1,19 @@
 import express from 'express';
-import fetch from 'node-fetch';
+import { createHandler } from './handlers/index.mjs';
 import { Bot } from './bot.mjs';
-import constants from './constants.mjs';
-
-const { rooms, openProjectURL } = constants;
-const openProjectApiUrl = `${openProjectURL}/api/v3`;
-const [room] = rooms;
-
-function createAuthorization() {
-	const { openProjectApiKey } = constants;
-	const auth = Buffer.from(`apikey:${openProjectApiKey}`).toString('base64');
-	return `Basic ${auth}`;
-}
-
-async function fetchApiLink(link) {
-	const url = `${openProjectURL}${link}`;
-	return fetch(url, {
-		headers: {
-			'Authorization': createAuthorization(),
-		},
-	}).then(res => res.json());
-}
-
-async function getWorkPackageActivities(id) {
-	const url = `${openProjectApiUrl}/work_packages/${id}/activities`;
-	const res = await fetch(url, {
-		headers: {
-			'Authorization': createAuthorization(),
-		},
-	});
-	return await res.json()
-		.then(json => json['_embedded'])
-		.then(json => json['elements']);
-}
-
-async function formatMessage(payload) {
-	const { action } = payload;
-	switch (action) {
-		case 'work_package:updated': {
-			const { id, subject } = payload.work_package;
-			const url = `${openProjectURL}/work_packages/${id}`;
-			const activities = await getWorkPackageActivities(id);
-			const lastActivity = activities[activities.length - 1];
-
-			const userApiLink = lastActivity['_links']['user']['href'];
-			const user = await fetchApiLink(userApiLink);
-			const userUrl = user['_links']['showUser']['href'];
-
-			return [
-				`Work package updated by [${ user.name }](${openProjectURL}${userUrl})`,
-				`[#${id} - ${subject}](${url})`,
-				'```text',
-				...lastActivity.details
-					.map(details => details['raw'])
-					.map(row => `- ${row}`),
-				'```',
-			];
-		}
-		default:
-			return `OpenProject Action: ${action}`;
-	}
-}
 
 /**
 	* @param { Bot } bot
 	*/
 export function createWebhookHandler(bot) {
+	const handle = createHandler(bot);
+
 	/**
 		@param { express.Request } req
 		@param { express.Response } res
 		*/
 	return async function(req, res) {
-		const message = await formatMessage(req.body);
-		await bot.sendMessage(room, message);
-
+		await handle(req.body);
 		res.status(200).json({ success: true });
 	};
 }
