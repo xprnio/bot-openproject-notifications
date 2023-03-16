@@ -11,7 +11,18 @@ export class Bot {
     this.id = id;
   }
 
-  async sendMessage(room, message) {
+  async sendMessage(room, content) {
+    if (Array.isArray(content)) {
+      for( messageItem of content ) {
+        await sendMessage(room, messageItem);
+      }
+      return;
+    }
+
+    if (typeof content !== 'string') {
+      throw new Error(`Invalid message: ${content}`);
+    }
+
     await driver.sendToRoom(message, room);
   }
 }
