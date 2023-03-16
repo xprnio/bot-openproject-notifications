@@ -2,13 +2,21 @@ import express from 'express';
 import { Bot } from './bot.mjs';
 import constants from './constants.mjs';
 
-function formatJSON(json) {
-	const tags = "```";
-	const format = 'json';
-	const payload = JSON.stringify(json, null, 2);
-	const newLine = '\n';
+const { rooms, openProjectURL } = constants;
+const [room] = rooms;
 
-	return `${tags}${format}${newLine}${payload}${newLine}${tags}`;
+function formatMessage(payload) {
+	const { action } = payload;
+	switch( action ) {
+		case 'work_package:updated': {
+			const { id } = payload.work_package;
+			const url = `${openProjectURL}/work_packages/${ id }`;
+
+			return `Work package updated:\n${ url }`;
+		}
+		default: 
+			return `OpenProject Action: ${ action }`;
+	}
 }
 
 /**
@@ -20,11 +28,7 @@ export function createWebhookHandler(bot) {
 		@param { express.Response } res
 		*/
 	return async function (req, res) {
-		const message = formatJSON(req.body);
-		const [room] = constants.rooms;
-
-		console.log(JSON.stringify(req.body, null, 2));
-
+		const message = formatMessage(req.body);
 		await bot.sendMessage(room, message);
 
 		res.status(200).json({ success: true });
