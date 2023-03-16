@@ -1,10 +1,11 @@
-import { Bot } from '../bot.mjs';
+import constants from '../constants.mjs';
+
 import { router } from './router.mjs';
+import { Bot } from '../bot.mjs';
 
 import * as format from '../lib/rocket-chat/formatters.mjs';
 import * as links from '../lib/open-project/links.mjs';
 import * as api from '../lib/open-project/api.mjs';
-import constants from '../constants.mjs';
 
 const action = (action) => `work_package:${action}`;
 
@@ -22,7 +23,10 @@ const WorkPackagesRouter = router({
 		const userLink = lastActivity['_links']['user']['href'];
 		const user = await api.link(userLink);
 
-		await bot.sendMessage(constants.rooms[0], [
+		await bot.handleNotification({
+			project_id: 2,
+			action: action('updated'),
+		}, [
 			`Work package updated by ${format.link(
 				user.name,
 				links.user(user.id),

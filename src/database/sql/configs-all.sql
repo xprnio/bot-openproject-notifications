@@ -1,0 +1,1 @@
+SELECT * FROM bot_configs;

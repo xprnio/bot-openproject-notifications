@@ -3,6 +3,7 @@ import express from 'express';
 import constants from './constants.mjs';
 import { Bot, createBot } from './bot.mjs';
 import { createWebhookHandler } from './webhook.mjs';
+import { createDatabase } from './database/database.mjs';
 
 /** @param { Bot } bot */
 function createServer(bot) {
@@ -18,6 +19,7 @@ function createServer(bot) {
 
 async function main() {
   const bot = await createBot({
+    database: await createDatabase('database.db'),
     hostname: constants.hostname,
     username: constants.username,
     password: constants.password,
