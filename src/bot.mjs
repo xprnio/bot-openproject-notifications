@@ -13,10 +13,10 @@ export class Bot {
 
   async sendMessage(room, content) {
     if (Array.isArray(content)) {
-      for( const messageItem of content ) {
-        await this.sendMessage(room, messageItem);
-      }
-      return;
+      return this.sendMessage(
+        room,
+        content.join(','),
+      );
     }
 
     if (typeof content !== 'string') {
