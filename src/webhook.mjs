@@ -20,6 +20,10 @@ async function getWorkPackageActivities(id) {
 		},
 	});
 	return await res.json()
+		.then(json => {
+			console.log(JSON.stringify(json, null, 2));
+			return json;
+		})
 		.then(json => json['_embedded'])
 		.then(json => json['elements']);
 }
