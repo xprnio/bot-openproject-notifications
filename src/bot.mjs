@@ -13,7 +13,7 @@ export class Bot {
 
   async sendMessage(room, content) {
     if (Array.isArray(content)) {
-      for( messageItem of content ) {
+      for( const messageItem of content ) {
         await sendMessage(room, messageItem);
       }
       return;
