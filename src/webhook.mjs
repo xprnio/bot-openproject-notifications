@@ -13,6 +13,15 @@ function createAuthorization() {
 	return `Basic ${auth}`;
 }
 
+async function fetchApiLink(link) {
+	const url = `${openProjectApiUrl}${link}`;
+	return fetch(url, {
+		headers: {
+			'Authorization': createAuthorization(),
+		},
+	}).then(res => res.json());
+}
+
 async function getWorkPackageActivities(id) {
 	const url = `${openProjectApiUrl}/work_packages/${id}/activities`;
 	const res = await fetch(url, {
@@ -34,14 +43,18 @@ async function formatMessage(payload) {
 			const activities = await getWorkPackageActivities(id);
 			const lastActivity = activities[activities.length - 1];
 
+			const userApiLink = lastActivity['_links']['user']['href'];
+			const user = await fetchApiLink(userApiLink);
+			const userUrl = user['_links']['showUser']['href'];
+
 			return [
+				`Work package updated by [${ user.name }](${openProjectURL}${userUrl})`,
 				`[#${id} - ${subject}](${url})`,
 				'```text',
 				...lastActivity.details
 					.map(details => details['raw'])
 					.map(row => `- ${row}`),
 				'```',
-				'---',
 			];
 		}
 		default:
