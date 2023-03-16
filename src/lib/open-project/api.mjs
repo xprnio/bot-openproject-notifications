@@ -1,3 +1,4 @@
+import { apiFetch as fetch } from './fetch.mjs';
 export { apiFetch as fetch } from './fetch.mjs';
 export { apiFetchLink as link } from './fetch.mjs';
 
