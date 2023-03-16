@@ -92,10 +92,8 @@ const createCommander = (bot, room) => {
           f.action
         FROM bot_filters AS f
         LEFT JOIN bot_configs AS c ON c.id = f.config_id
-        WHERE
-          ${where.join(' AND ')}
+        ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
       `;
-      console.log(query);
       const result = await bot.database.all(query);
       await bot.sendMessage(room, [
         format.code(JSON.stringify(result, null, 2).split('\n'), 'json'),
