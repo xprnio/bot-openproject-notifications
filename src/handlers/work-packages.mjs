@@ -32,7 +32,7 @@ const WorkPackagesRouter = router({
 				url,
 			),
 			format.code(
-				...lastActivity.details
+				lastActivity.details
 					.map(details => details['raw'])
 					.map(row => `- ${row}`),
 			),

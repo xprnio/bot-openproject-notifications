@@ -5,7 +5,7 @@ export function link(title, href) {
 export function code(rows, language = 'text') {
 	return [
 		'```' + language,
-		...rows,
+		rows.join('\n'),
 		'```',
 	].join('\n');
 }
